@@ -14,7 +14,7 @@ score_board = {
 }
 
 class Controller:
-	def __init__(self, actors_database, tournaments_database, round_database, match_database, view):
+	def __init__(self, actors_database, tournaments_database, view):
 		self.view = view
 		self.actors_database = actors_database
 		self.tournaments_database = tournaments_database
