@@ -1,10 +1,11 @@
 import datetime
 
 from controllers.actor import ActorController
+from controllers.tournament import TournamentController
 
 from models.tournament import Tournament
-from models.database import Database, ACTOR_FORMAT, TOURNAMENT_KEEP
-from models.swisssystem import SwissSystem
+#from models.database import Database, ACTOR_FORMAT, TOURNAMENT_KEEP
+#from models.swisssystem import SwissSystem
 
 from views.menu import MENU, ACTOR_MENU, TOURNAMENT_MENU, TOURNAMENT_IN_PROGRESS_MENU
 from views.base import View
@@ -28,13 +29,41 @@ class Controller:
 			view = self.view
 		)
 
+	def refresh_tournament_method(self):
+		self.tournament_controller = TournamentController(
+			actors_database = self.actors_database,
+			tournaments_database = self.tournaments_database,
+			view = self.view,
+			tournament = self.tournament,
+			score_board = self.score_board
+		)
+		
+
 	# Tournaments
+	"""
 	def save_tournament(self):
 		self.tournaments_database.update_db(self.tournament)
-
+	
 	def show_all_tournament(self):
 		show = self.tournaments_database.show(keep = TOURNAMENT_KEEP)
 		self.view.display(show)
+	
+	def create_tournament(self):
+		check_tournament = True
+		while check_tournament == True:
+			tournament_input = self.view.prompt_for_tournament()
+			verify_if_already_exist = self.tournaments_database.search_db(
+				column1 = 'name',
+				value1 = tournament_input.name,
+			)
+
+			if len(verify_if_already_exist) == 0:
+				self.tournaments_database.insert_db(tournament_input)
+				self.load_tournament(self.tournaments_database.db_table.get(doc_id=len(self.tournaments_database.db_table)).doc_id)
+				check_tournament = False
+			else:
+				print('\nle tournoi existe déjà !\n')
+	"""
 
 	def create_tournament(self):
 		check_tournament = True
@@ -75,6 +104,9 @@ class Controller:
 			score = tournament_to_load['score']
 		)
 		
+		self.refresh_tournament_method()
+
+	"""
 	def close_tournament(self):
 		self.tournament.close()
 		self.save_tournament()
@@ -98,7 +130,7 @@ class Controller:
 			print('\n Liste des participants du tournoi ' + self.tournament.name + ' : \n')
 			show = self.actors_database.show(keep = None, id_list = self.tournament.player_list)
 			self.view.display(show)
-
+	
 	def next_round(self):
 		self.tournament.clear_round()
 		self.tournament.current_round += 1
@@ -167,12 +199,13 @@ class Controller:
 			self.selected_match,
 			self.display_winner
 		)
-
+	"""
 	def run(self):
 		running = True
 		self.view.prompt_clear()
 
 		while running:
+			self.refresh_tournament_method()
 			user_choice = self.view.prompt_for_menu(MENU)
 			self.view.prompt_clear()
 			
@@ -216,14 +249,13 @@ class Controller:
 					self.view.prompt_clear()
 
 					if user_choice_tournament_menu == '1':
-						self.show_all_tournament()
+						self.tournament_controller.show_all_tournament()
 
 					elif user_choice_tournament_menu == '2':
-						
 						self.create_tournament()
 
 					elif user_choice_tournament_menu == '3':
-						self.show_all_tournament()
+						self.tournament_controller.show_all_tournament()
 						tournament_to_load = self.view.prompt_for_tournament_load()
 						self.load_tournament(tournament_to_load)
 
@@ -232,37 +264,35 @@ class Controller:
 						while tournament_in_progress_menu:
 							user_choice_tournament_in_progress_menu = self.view.prompt_for_menu(TOURNAMENT_IN_PROGRESS_MENU)
 							self.view.prompt_clear()
-
+							
 							if user_choice_tournament_in_progress_menu == '1':
-								print(self.tournament.tournament_started)
-								print(self.tournament.name)
 								self.view.display_tournament_overview(self.tournament)
 
 							elif user_choice_tournament_in_progress_menu == '2':
-								self.show_tournament_player()
+								self.tournament_controller.show_tournament_player()
 								
 							elif user_choice_tournament_in_progress_menu == '3':
-								self.show_all_actor()
+								self.actor_controller.show_all_actor()
 								self.selected_players = self.view.prompt_select_tournament_player(self.tournament.name).split()
-								self.add_player_to_tournament(self.selected_players)
+								self.tournament_controller.add_player_to_tournament(self.selected_players)
 								self.view.prompt_clear()
-								self.show_tournament_player()
+								self.tournament_controller.show_tournament_player()
 
 							elif user_choice_tournament_in_progress_menu == '4':
-								self.show_tournament_player()
+								self.tournament_controller.show_tournament_player()
 								self.selected_players = self.view.prompt_select_tournament_player(self.tournament.name).split()
-								self.delete_player_from_tournament(self.selected_players)
+								self.tournament_controller.delete_player_from_tournament(self.selected_players)
 								self.view.prompt_clear()
-								self.show_tournament_player()
+								self.tournament_controller.show_tournament_player()
 
 							elif user_choice_tournament_in_progress_menu == '5':
-								self.show_current_round()
+								self.tournament_controller.show_current_round()
 
 							elif user_choice_tournament_in_progress_menu == '6':
 								if len(self.tournament.current_matches) == len(self.tournament.matches_done) or self.tournament.current_round == 0:
-									self.next_round()
-									self.show_current_round()
-									self.save_tournament()
+									self.tournament_controller.next_round()
+									self.tournament_controller.show_current_round()
+									self.tournament_controller.save_tournament()
 
 								elif self.tournament.current_round == self.tournament.number_of_rounds:
 									print('\nLe nombre maximum de tour est déja atteint.\n')
@@ -271,7 +301,7 @@ class Controller:
 									print("Le round en cours n'est pas terminé.\n")
 
 							elif user_choice_tournament_in_progress_menu == '7':
-								self.show_current_round()
+								self.tournament_controller.show_current_round()
 								match_already_done = True
 								while match_already_done:
 									match_selected = self.view.prompt_to_select_match()
@@ -286,16 +316,16 @@ class Controller:
 									self.actors_database,
 									match_selected
 								)
-								self.set_score(selected_match = match_selected, result = result)
-								self.save_tournament()
+								self.tournament_controller.set_score(selected_match = match_selected, result = result)
+								self.tournament_controller.save_tournament()
 								self.view.prompt_clear()
-								self.show_current_round()
+								self.tournament_controller.show_current_round()
 
 							elif user_choice_tournament_in_progress_menu == '8':
 								pass
 
 							elif user_choice_tournament_in_progress_menu == '9':
-								self.close_tournament()
+								self.tournament_controller.close_tournament()
 
 							elif user_choice_tournament_in_progress_menu == '10':
 								self.view.prompt_modify_tournament()

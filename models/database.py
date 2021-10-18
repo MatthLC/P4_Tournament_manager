@@ -120,7 +120,6 @@ class Database:
 		self.matable_df.index = np.arange(1,len(self.matable_df)+1)
 		self.item_list =  item_list
 		self.sort_list = sort_list
-
 		df = self.matable_df.loc[self.item_list].sort_values(by = self.sort_list)
 
 		return df
