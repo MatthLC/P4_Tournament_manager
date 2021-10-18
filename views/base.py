@@ -1,5 +1,5 @@
 
-from views.actor import ActorView
+from views.actor import ActorView, ModifyRanking
 from views.tournament import TournamentView, TournamentOverview
 from views.round import RoundView
 from views.menu import MenuView
@@ -38,6 +38,12 @@ class View:
 
 	def prompt_for_actor(self):
 		return ActorView()
+
+	def prompt_new_ranking(self):
+		return ModifyRanking().new_ranking()
+
+	def prompt_modify_tournament(self):
+		return TournamentOverview().modify()
 
 	def prompt_for_tournament(self):
 		return TournamentView()

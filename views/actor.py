@@ -40,3 +40,18 @@ class ActorView:
 			except ValueError:
 				print('Veuillez saisir un nombre.')
 	
+class ModifyRanking:
+	def new_ranking(self):
+		id_rank = []
+
+		id_selected = input('Sélectionnez un participant : ')
+		ranking = input('Saisir le nouveau classement :  ')
+
+		id_rank.append(id_selected)
+		id_rank.append(ranking)
+
+		return id_rank
+
+
+
+	

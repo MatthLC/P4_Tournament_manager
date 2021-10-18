@@ -45,7 +45,7 @@ class Database:
 		self.data_from_object = data_from_object
 		self.db_table.insert(self.data_from_object.__dict__)
 
-	#update
+	#updated
 	def update_db(self, tournament):
 		self.tournament = tournament
 		self.db_table.update(
@@ -56,6 +56,12 @@ class Database:
 				).doc_id
 			]
 		)
+
+	def modify_db(self, dictionnary, id_list):
+		self.dictionnary = dictionnary
+		self.id_list = id_list
+
+		self.db_table.update(self.dictionnary, doc_ids = [int(self.id_list)])
 
 	#search by columns
 	def search_db(self, column1, value1, column2 = None, value2 = None):

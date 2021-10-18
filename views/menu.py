@@ -8,8 +8,7 @@ MENU = {
 ACTOR_MENU = {
 	'1' : 'Afficher la liste des participants',
 	'2' : 'Ajouter un participant',
-	'3' : "Modifier les données d'un participant",
-	'4' : 'Mettre à jour le classement',
+	'3' : 'Mettre à jour le classement',
 	'999' : 'Menu principal'
 }
 
@@ -29,11 +28,10 @@ TOURNAMENT_IN_PROGRESS_MENU = {
 	'5' : 'Afficher le round en cours',
 	'6' : 'Round suivant',
 	'7' : "Saisir le résultat d'un match",
-	'8' : 'cloturer le round',
-	'9' : 'Reporting',
-	'10' : 'Cloturer le tournoi',
+	'8' : 'Reporting',
+	'9' : 'Cloturer le tournoi',
+	'10' : 'Modifier le tournoi',
 	'999' : 'Menu principal'
-
 }
 
 

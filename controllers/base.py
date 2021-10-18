@@ -1,17 +1,14 @@
+import datetime
+
+from controllers.actor import ActorController
+
 from models.tournament import Tournament
 from models.database import Database, ACTOR_FORMAT, TOURNAMENT_KEEP
 from models.swisssystem import SwissSystem
-from views.menu import MENU, ACTOR_MENU, TOURNAMENT_MENU, TOURNAMENT_IN_PROGRESS_MENU
-import datetime
 
+from views.menu import MENU, ACTOR_MENU, TOURNAMENT_MENU, TOURNAMENT_IN_PROGRESS_MENU
 from views.base import View
 
-
-score_board = {
-	'1' : [1.0, 0.0],
-	'2' : [0.0, 1.0],
-	'3' : [0.5, 0.5]
-}
 
 class Controller:
 	def __init__(self, actors_database, tournaments_database, view):
@@ -20,41 +17,24 @@ class Controller:
 		self.tournaments_database = tournaments_database
 		self.tournament = ''
 		self.actor_list = []
+		self.score_board = {
+			'1' : [1.0, 0.0],
+			'2' : [0.0, 1.0],
+			'3' : [0.5, 0.5]
+		}	
+		self.actor_controller = ActorController(
+			actors_database = self.actors_database,
+			tournaments_database = self.tournaments_database,
+			view = self.view
+		)
 
-	def add_actor(self):
-		check_actor = False
-		while check_actor == False:
-			actor_input = self.view.prompt_for_actor()
-			verify_if_already_exist = self.actors_database.search_db(
-				column1 = 'first_name',
-				value1 = actor_input.first_name,
-				column2 = 'last_name',
-				value2 = actor_input.last_name
-			)
-			
-			if len(verify_if_already_exist) == 0:
-				print(verify_if_already_exist)
-				self.actors_database.insert_db(actor_input)
-				check_actor = True
-			else:
-				print('\nLe participant existe déjà!\n')
-
-	def show_all_actor(self):
-		self.view.display(self.actors_database.show())
-
-
-	def modify_actor(self):
-		pass
 	# Tournaments
-
 	def save_tournament(self):
 		self.tournaments_database.update_db(self.tournament)
 
 	def show_all_tournament(self):
 		show = self.tournaments_database.show(keep = TOURNAMENT_KEEP)
-		print('\n')
-		print(show)
-		print('\n')
+		self.view.display(show)
 
 	def create_tournament(self):
 		check_tournament = True
@@ -117,9 +97,7 @@ class Controller:
 		else:
 			print('\n Liste des participants du tournoi ' + self.tournament.name + ' : \n')
 			show = self.actors_database.show(keep = None, id_list = self.tournament.player_list)
-			print('\n')
-			print(show)
-			print('\n')
+			self.view.display(show)
 
 	def next_round(self):
 		self.tournament.clear_round()
@@ -169,8 +147,8 @@ class Controller:
 	def set_score(self, selected_match, result):
 		self.selected_match = int(selected_match) - 1
 		self.result = result
-		self.result_player1 = score_board[self.result][0]
-		self.result_player2 = score_board[self.result][1]
+		self.result_player1 = self.score_board[self.result][0]
+		self.result_player2 = self.score_board[self.result][1]
 		self.display_winner = ''
 		self.match = self.tournament.current_matches[self.selected_match]
 
@@ -209,13 +187,16 @@ class Controller:
 					self.view.prompt_clear()
 
 					if user_choice_actor_menu == '1':
-						self.show_all_actor()
+						self.actor_controller.show_all_actor()
 
 					elif user_choice_actor_menu == '2':
-						self.add_actor()
+						self.actor_controller.add_actor()
 						self.view.prompt_clear()
 
 					elif user_choice_actor_menu == '3':
+						self.actor_controller.modify_actor()
+
+					elif user_choice_actor_menu == '4':
 						pass
 
 					elif user_choice_actor_menu == '999':
@@ -314,10 +295,10 @@ class Controller:
 								pass
 
 							elif user_choice_tournament_in_progress_menu == '9':
-								pass
+								self.close_tournament()
 
 							elif user_choice_tournament_in_progress_menu == '10':
-								self.close_tournament()
+								self.view.prompt_modify_tournament()
 
 							elif user_choice_tournament_in_progress_menu == '999':
 								tournament_in_progress_menu = False

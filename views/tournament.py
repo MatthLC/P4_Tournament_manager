@@ -1,5 +1,12 @@
 import datetime
 
+MODIFY_TOURNAMENT = [
+	'1. Nom du tournoi',
+	'2. Lieu du tournoi',
+	'3. Description du tournoi',
+]
+
+
 class TournamentView:
 	def __init__(self):
 		self.name = input('Saisir le nom du tournoi : ')
@@ -44,3 +51,9 @@ class TournamentOverview:
 		print('Tour en cours    : ' + str(self.tournament.current_round))
 		
 
+	def modify(self):
+		for item in MODIFY_TOURNAMENT:
+			print(item)
+
+		user_choice = input('Que souhaitez-vous modifier ?')
+		return user_choice
