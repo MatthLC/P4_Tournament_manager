@@ -31,9 +31,26 @@ class ActorController:
 				print('\nLe participant existe déjà!\n')
 
 	def modify_actor(self):
-			self.show_all_actor()
-			user_choice = self.view.prompt_new_ranking()
-			new_rank = {'ranking': int(user_choice[1])}
-			self.actors_database.modify_db(dictionnary = new_rank , id_list = user_choice[0])
-			self.view.prompt_clear()
-			self.show_all_actor()
+		self.show_all_actor()
+		user_choice = self.view.prompt_new_ranking()
+		new_rank = {'ranking': int(user_choice[1])}
+		self.db_table = self.actors_database.db_table
+		self.actual_rank = self.db_table.get(doc_id = int(user_choice[0]))['ranking']
+		self.query = self.actors_database.db_query
+		
+		if int(user_choice[1]) > self.actual_rank :
+			for rank in range(int(self.actual_rank) + 1, int(user_choice[1]) + 1):
+				actor_to_update = self.db_table.get(self.query.ranking == rank).doc_id
+				rank_to_update = self.db_table.get(self.query.ranking == rank)['ranking'] - 1
+				self.actors_database.modify_db(dictionnary = {'ranking': int(rank_to_update)} , id_list = actor_to_update)
+		
+		if int(user_choice[1]) < self.actual_rank :
+			for rank in range(int(self.actual_rank) - 1, int(user_choice[1]) - 1, -1):
+				actor_to_update = self.db_table.get(self.query.ranking == rank).doc_id
+				rank_to_update = self.db_table.get(self.query.ranking == rank)['ranking'] + 1
+				self.actors_database.modify_db(dictionnary = {'ranking': int(rank_to_update)} , id_list = actor_to_update)
+		
+		self.actors_database.modify_db(dictionnary = new_rank , id_list = user_choice[0])
+		self.view.prompt_clear()
+		self.show_all_actor()
+		
