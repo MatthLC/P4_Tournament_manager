@@ -4,6 +4,7 @@ from views.tournament import TournamentView, TournamentOverview
 from views.round import RoundView
 from views.menu import MenuView
 from views.match import MatchView
+from views.score import ScoreView
 
 import os
 
@@ -76,3 +77,12 @@ class View:
 		self.match_selected = match_selected
 
 		return MatchView().set_score(self.matches, self.current_round, self.view, self.match_selected)
+
+	def display_score(self, player_list, score, view):
+		self.player_list = player_list
+		self.score = score
+		self.view = view
+		ScoreView().display_score(
+			player_list = self.player_list,
+			score = self.score,
+			view = self.view)

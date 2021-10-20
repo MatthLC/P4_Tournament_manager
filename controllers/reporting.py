@@ -29,4 +29,9 @@ class ReportingController:
 				winner = self.tournament.winner_list[key_round]
 			)
 		
-		
+	def display_score(self):
+		self.view.display_score(
+			player_list = self.tournament.player_list,
+			score = self.tournament.score,
+			view = self.actors_database
+		)

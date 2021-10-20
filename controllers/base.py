@@ -299,7 +299,11 @@ class Controller:
 					elif user_choice_reporting_menu == '6':
 						self.load_tournament_for_reporting()
 						self.reporting_controller.display_all_round()
-						
+
+					elif user_choice_reporting_menu == '7':
+						self.load_tournament_for_reporting()
+						self.reporting_controller.display_score()
+
 					elif user_choice_reporting_menu == '999':
 						reporting_menu = False
 
