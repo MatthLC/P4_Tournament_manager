@@ -18,15 +18,17 @@ class TournamentController:
 		self.score_board = score_board
 
 	def show_all_tournament(self):
-		show = self.tournaments_database.show(keep = TOURNAMENT_KEEP)
-		self.view.display(show)
+		tournament_db = self.tournaments_database.show(keep = TOURNAMENT_KEEP)
+		self.view.display(tournament_db)
 
-	def show_tournament_player(self):
-		if self.tournament.player_list == []:
+	def show_tournament_player(self, sort_list=[]):
+		self.sort_list = sort_list
+
+		if not self.tournament.player_list:
 			print("Il n'y a pas de joueur pour le moment")
 		else:
 			print('\n Liste des participants du tournoi ' + self.tournament.name + ' : \n')
-			show = self.actors_database.show(keep = None, id_list = self.tournament.player_list)
+			show = self.actors_database.show(keep = None, id_list = self.tournament.player_list, sort_list = self.sort_list)
 			self.view.display(show)
 
 	def save_tournament(self):
@@ -43,7 +45,7 @@ class TournamentController:
 			self.tournament.add_player(player.doc_id)
 			self.save_tournament()
 
-	def delete_player_from_tournament(self, players):
+	def delete_players_from_tournament(self, players):
 		self.players = players
 		self.tournament.delete_player(self.players)
 		self.save_tournament()
@@ -51,8 +53,7 @@ class TournamentController:
 	def next_round(self):
 		self.tournament.clear_round()
 		self.tournament.current_round += 1
-		self.round_system()
-		
+		self.round_system()		
 
 	def show_current_round(self):
 		if self.tournament.current_round == 0:
@@ -60,7 +61,6 @@ class TournamentController:
 		else:
 			self.view.display_rounds(
 				matches = self.tournament.current_matches,
-				matches_status = self.tournament.matches_status,
 				current_round = self.tournament.current_round,
 				view = self.actors_database,
 				winner = self.tournament.winner
@@ -88,10 +88,12 @@ class TournamentController:
 				match_played_by_player = self.tournament.match_played_by_player
 			)
 
-
 		for item in range(0,len(self.tournament.current_matches)):
 			self.tournament.matches_status.append('En cours')
 			self.tournament.winner.append('Match non terminé')
+
+		self.tournament.round_list[str(self.tournament.current_round)] = self.tournament.current_matches.copy()
+		self.tournament.winner_list[str(self.tournament.current_round)] = self.tournament.winner.copy()
 
 	def set_score(self, selected_match, result):
 		self.selected_match = int(selected_match) - 1
@@ -102,8 +104,8 @@ class TournamentController:
 		self.match = self.tournament.current_matches[self.selected_match]
 
 		if result != '3':
-			last_name = self.actors_database.matable_df.loc[self.match[int(self.result) - 1]].first_name
-			first_name = self.actors_database.matable_df.loc[self.match[int(self.result) - 1]].last_name
+			last_name = self.actors_database.matable_df.loc[int(self.match[int(self.result) - 1])].first_name
+			first_name = self.actors_database.matable_df.loc[int(self.match[int(self.result) - 1])].last_name
 			self.display_winner = first_name + ' ' + last_name
 
 		if result == '3':

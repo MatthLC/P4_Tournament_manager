@@ -2,13 +2,15 @@ import pandas as pd
 import numpy as np
 
 class RoundView:
-	def show_current_round(self, matches, matches_status, current_round, view, winner):
+	def show_current_round(self, matches, current_round, view, winner):
 		self.matches = matches
-		self.matches_status = matches_status
 		self.current_round = current_round
 		self.view = view
 		self.winner = winner
-
+		self.table_all = self.view.db_table.all()
+		self.matable_df = pd.DataFrame.from_dict(self.table_all)
+		self.matable_df.index = np.arange(1,len(self.matable_df)+1)
+	
 		print('---------------------------------------------------')
 		print('                    ROUND ' + str(self.current_round))
 		print('---------------------------------------------------')
@@ -22,12 +24,11 @@ class RoundView:
 		for match in self.matches_np:
 			matches_data.append(np.array([
 				str(i) + '.  ',
-				str(self.view.matable_df.loc[match[0]].first_name) + ' ' +
-					str(self.view.matable_df.loc[match[0]].last_name),
+				str(self.matable_df.loc[int(match[0])].first_name) + ' ' +
+					str(self.matable_df.loc[int(match[0])].last_name),
 				'  VS  ',
-				str(self.view.matable_df.loc[match[1]].first_name) + ' ' +
-					str(self.view.matable_df.loc[match[1]].last_name),
-				self.matches_status[int(i)-1],
+				str(self.matable_df.loc[int(match[1])].first_name) + ' ' +
+					str(self.matable_df.loc[int(match[1])].last_name),
 				self.winner[int(i)-1]
 			]))
 			i += 1
@@ -39,10 +40,8 @@ class RoundView:
 		matches_df = pd.DataFrame(
 			matches_data,
 			index = all_index,
-			columns = ['', 'joueur 1', '', 'joueur 2', 'Situation', 'Vainqueur']
+			columns = ['', 'joueur 1', '', 'joueur 2', 'Vainqueur']
 		).to_string(index = False)
 	
 		print(matches_df)
 		print('\n')
-
-

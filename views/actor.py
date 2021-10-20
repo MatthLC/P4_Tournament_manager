@@ -1,9 +1,8 @@
 class ActorView:
-	def __init__(self):
+	def __init__(self, top_rank):
 		#identity of actor
 		self.first_name = input ('Saisir le prénom du joueur : ')
 		self.last_name = input ('Saisir le nom de famille du joueur : ')
-
 		#Sex of actor
 		check_sex = False
 		while check_sex == False:
@@ -36,16 +35,37 @@ class ActorView:
 		while check_ranking == False:
 			try:
 				self.ranking = int(input ('Saisir le classement du joueur : '))
-				check_ranking = True
+				if self.ranking > top_rank:
+					check_ranking = True
+				else:
+					print('Veuillez saisir unu classement supérieur à ' + str(top_rank))
 			except ValueError:
 				print('Veuillez saisir un nombre.')
 	
 class ModifyRanking:
-	def new_ranking(self):
+	def new_ranking(self, top_rank):
+		self.top_rank = int(top_rank)
 		id_rank = []
 
-		id_selected = input('Sélectionnez un participant : ')
-		ranking = input('Saisir le nouveau classement :  ')
+		check_value = False
+		while check_value == False:
+			id_selected = input('Sélectionnez un participant : ')
+			try:
+				if int(id_selected) in range(1, self.top_rank + 1):
+					check_value = True
+			except ValueError:
+				print('Veuillez saisir un nombre compris entre 1 et ' + str(self.top_rank))
+
+		print('Classement maximum : ' + str(self.top_rank))
+		check_value = False
+		while check_value == False:
+			ranking = input('Saisir le nouveau classement :  ')
+			try:
+				if int(ranking) in range(1, self.top_rank + 1):
+					check_value = True
+			except ValueError:
+				print('Veuillez saisir un nombre compris entre 1 et ' + str(self.top_rank))
+
 
 		id_rank.append(id_selected)
 		id_rank.append(ranking)

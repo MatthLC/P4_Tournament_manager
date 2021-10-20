@@ -60,7 +60,7 @@ class Database:
 	def modify_db(self, dictionnary, id_list):
 		self.dictionnary = dictionnary
 		self.id_list = id_list
-
+		
 		self.db_table.update(self.dictionnary, doc_ids = [int(self.id_list)])
 
 	#search by columns
@@ -84,13 +84,11 @@ class Database:
 
 	#show database
 
-	def show(self, keep = None, id_list = []):
+	def show(self, keep = None, id_list = [], sort_list = []):
 		self.keep = keep
-		
+		self.sort_list = sort_list
 		self.id_list = id_list
-
 		self.table_all = self.db_table.all()
-		
 		self.matable_df = pd.DataFrame.from_dict(self.table_all)
 		self.matable_df.index = np.arange(1,len(self.matable_df)+1)
 		self.df = self.matable_df
@@ -104,23 +102,32 @@ class Database:
 		self.new_index = []
 		for i in range(1,len(self.df) + 1):
 			self.new_index.append(i)
+		
+		if len(self.sort_list) > 0:
+			self.df = self.df.sort_values(by = self.sort_list)
 
 		self.df.index = self.new_index
 		self.df_renamed = self.df.rename(columns = self.table_format)
 
-		return self.df_renamed
+		#return self.df_renamed
+		return self.df_renamed	
 
 	def load(self, line):
 		self.table_all = self.db_table.all()
 		self.line = line
 		return self.db_table.all()[int(self.line) - 1]
 
-	def sort_by(self, item_list, sort_list):
+	def sort_by(self, sort_list, item_list = []):
 		self.matable_df = pd.DataFrame.from_dict(self.table_all)
 		self.matable_df.index = np.arange(1,len(self.matable_df)+1)
 		self.item_list =  item_list
 		self.sort_list = sort_list
-		df = self.matable_df.loc[self.item_list].sort_values(by = self.sort_list)
+
+		if self.item_list != []:
+			df = self.matable_df.loc[self.item_list].sort_values(by = self.sort_list)
+
+		if self.item_list == []:
+			df = self.matable_df.sort_values(by = self.sort_list)
 
 		return df
 

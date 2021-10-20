@@ -15,7 +15,7 @@ class ActorController:
 	def add_actor(self):
 		check_actor = False
 		while check_actor == False:
-			actor_input = self.view.prompt_for_actor()
+			actor_input = self.view.prompt_for_actor(top_rank = len(self.actors_database.table_all))
 			verify_if_already_exist = self.actors_database.search_db(
 				column1 = 'first_name',
 				value1 = actor_input.first_name,
@@ -30,9 +30,8 @@ class ActorController:
 			else:
 				print('\nLe participant existe déjà!\n')
 
-	def modify_actor(self):
-		self.show_all_actor()
-		user_choice = self.view.prompt_new_ranking()
+	def modify_actor(self, user_choice):
+		self.user_choice = user_choice
 		new_rank = {'ranking': int(user_choice[1])}
 		self.db_table = self.actors_database.db_table
 		self.actual_rank = self.db_table.get(doc_id = int(user_choice[0]))['ranking']

@@ -16,6 +16,7 @@ class Tournament():
 		current_matches,
 		matches_done,
 		matches_status,
+		winner_list,
 		winner,
 		match_played_by_player,
 		score
@@ -33,17 +34,18 @@ class Tournament():
 		self.current_matches = current_matches
 		self.matches_done = matches_done
 		self.matches_status = matches_status
+		self.winner_list = winner_list
 		self.winner = winner
 		self.match_played_by_player = match_played_by_player
 		self.score = score
 
 	def init_match_played_by_player(self):
 		for player in self.player_list:
-			self.match_played_by_player[int(player)] = []
+			self.match_played_by_player[str(player)] = []
 
 	def init_score(self):
 		for player in self.player_list:
-			self.score[player] = [0]
+			self.score[str(player)] = [0]
 
 	def add_player(self, players):
 		self.player_list.append(players)
@@ -78,8 +80,9 @@ class Tournament():
 		
 		self.matches_status[self.selected_match] = 'Terminé'
 		self.winner[self.selected_match] = self.display_winner
-		self.match_played_by_player[self.match[0]].append(self.match[1])
-		self.match_played_by_player[self.match[1]].append(self.match[0])
-		self.score[self.match[0]][0] += self.result_player1
-		self.score[self.match[1]][0] += self.result_player2
+		self.winner_list[str(self.current_round)][self.selected_match] = self.display_winner
+		self.match_played_by_player[str(self.match[0])].append(self.match[1])
+		self.match_played_by_player[str(self.match[1])].append(self.match[0])
+		self.score[str(self.match[0])][0] += self.result_player1
+		self.score[str(self.match[1])][0] += self.result_player2
 		

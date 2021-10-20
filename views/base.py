@@ -21,26 +21,32 @@ class View:
 		clearConsole()
 		MenuView().header()
 
-	def prompt_for_menu(self, menu):
+	def prompt_for_menu(self, menu, part_of_menu = []):
 		self.menu = menu
-		return MenuView().prompt_for_menu(self.menu)
+		self.part_of_menu = part_of_menu
+		return MenuView().prompt_for_menu(menu = self.menu, part_of_menu = self.part_of_menu)
 
 	def prompt_for_menu_tournament(self, name):
 		self.name = name
-		return MenuView().prompt_for_menu_tournament(self.name)
+		return MenuView().prompt_for_menu_tournament(name = self.name)
 
 	def prompt_for_tournament_load(self):
 		return MenuView().prompt_for_tournament_load()
+
+	def prompt_for_tournament_to_display(self):
+		return MenuView().prompt_for_tournament_to_display()
 
 	def	prompt_select_tournament_player(self,name):
 		self.name = name
 		return MenuView().prompt_select_tournament_player(self.name)
 
-	def prompt_for_actor(self):
-		return ActorView()
+	def prompt_for_actor(self, top_rank):
+		self.top_rank = top_rank
+		return ActorView(top_rank)
 
-	def prompt_new_ranking(self):
-		return ModifyRanking().new_ranking()
+	def prompt_new_ranking(self, top_rank):
+		self.top_rank = top_rank
+		return ModifyRanking().new_ranking(top_rank = self.top_rank)
 
 	def prompt_modify_tournament(self):
 		return TournamentOverview().modify()
@@ -52,14 +58,13 @@ class View:
 		self.tournament = tournament
 		TournamentOverview().overview(self.tournament)
 
-	def display_rounds(self, matches, matches_status, current_round, view, winner):
+	def display_rounds(self, matches, current_round, view, winner):
 		self.matches = matches
-		self.matches_status = matches_status
 		self.current_round = current_round
 		self.view = view
 		self.winner = winner
 
-		RoundView().show_current_round(self.matches, self.matches_status, self.current_round, self.view, self.winner)
+		RoundView().show_current_round(self.matches, self.current_round, self.view, self.winner)
 
 	def prompt_to_select_match(self):
 		return input("Sélectionnez un match : ")

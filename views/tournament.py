@@ -1,10 +1,10 @@
 import datetime
 
-MODIFY_TOURNAMENT = [
-	'1. Nom du tournoi',
-	'2. Lieu du tournoi',
-	'3. Description du tournoi',
-]
+MODIFY_TOURNAMENT = {
+	'1' : '1. Nom du tournoi',
+	'2' : '2. Lieu du tournoi',
+	'3' : '3. Description du tournoi',
+}
 
 
 class TournamentView:
@@ -26,13 +26,14 @@ class TournamentView:
 
 		self.number_of_rounds = 4
 		self.current_round = 0
-		self.round_list = []
+		self.round_list = {}
 		self.player_list = []
 		self.tournament_started = str(datetime.datetime.now())
 		self.tournament_finished = None
 		self.current_matches = []
 		self.matches_status = []
 		self.matches_done = []
+		self.winner_list = {}
 		self.winner = []
 		self.match_played_by_player = {}
 		self.score = {}
@@ -52,8 +53,11 @@ class TournamentOverview:
 		
 
 	def modify(self):
-		for item in MODIFY_TOURNAMENT:
-			print(item)
+		for item, value in MODIFY_TOURNAMENT.items():
+			print(value)
 
-		user_choice = input('Que souhaitez-vous modifier ?')
-		return user_choice
+		user_choice = input('Que souhaitez-vous modifier ? : ')
+		user_value = input(f'[{MODIFY_TOURNAMENT[user_choice]}] : ' )
+		value_to_modify = [user_choice,user_value]
+
+		return value_to_modify

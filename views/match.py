@@ -13,15 +13,15 @@ class MatchView:
 		"""
 		print(
 			'1. ' +
-			str(self.view.matable_df.loc[self.match[0]].first_name) +
+			str(self.view.matable_df.loc[int(self.match[0])].first_name) +
 			' ' +
-			str(self.view.matable_df.loc[self.match[0]].last_name)
+			str(self.view.matable_df.loc[int(self.match[0])].last_name)
 		)
 		print(
 			'2. ' +
-			str(self.view.matable_df.loc[self.match[1]].first_name) +
+			str(self.view.matable_df.loc[int(self.match[1])].first_name) +
 			' ' +
-			str(self.view.matable_df.loc[self.match[1]].last_name)
+			str(self.view.matable_df.loc[int(self.match[1])].last_name)
 		)
 		print('3. Egalité')
 		print('---------------------------------------------------')	

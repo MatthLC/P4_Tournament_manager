@@ -16,8 +16,14 @@ TOURNAMENT_MENU = {
 	'1' : 'Afficher la liste des tournois',
 	'2' : 'Créer un tournoi',
 	'3' : 'Continuer un tournoi en cours',
-	'4' : 'Modifier un tournoi',
 	'999' : 'Menu principal'
+}
+
+TOURNAMENT_IN_PROGRESS_MENU = {
+	'1' : 'Résumé du tournoi',
+	'2' : 'Afficher la liste des joueurs',
+	'3' : 'Ajouter un joueur',
+	'4' : 'Supprimer un joueur',
 }
 
 TOURNAMENT_IN_PROGRESS_MENU = {
@@ -34,6 +40,17 @@ TOURNAMENT_IN_PROGRESS_MENU = {
 	'999' : 'Menu principal'
 }
 
+REPORTING_MENU = {
+	'1' : 'Liste des participants par ordre alphabétique',
+	'2' : 'Liste des participants par classement',
+	'3' : 'Liste de tous les tournois',
+	'4' : "Liste des joueurs d'un tournoi par ordre alphabétique",
+	'5' : "Liste des joueurs d'un tournoi par classement",
+	'6' : "liste de tous les tours / matchs d'un tournoi",
+	'7' : "Afficher le classement d'un tournoi",
+	'999' : 'Menu principal'
+}
+
 
 class MenuView:
 	
@@ -43,18 +60,24 @@ class MenuView:
 		print('---------------------------------------------------')
 		print('\n')
 
-	def print_menu(self, menu):
+	def print_menu(self, menu, part_of_menu=[]):
 		self.menu = menu
-		for key, menu_text in self.menu.items():
-			print(key + ". " + menu_text)
+		self.part_of_menu = part_of_menu
+		if self.part_of_menu == []:
+			self.part_of_menu = self.menu.keys()
 
-	def prompt_for_menu(self, menu):
+		for key, menu_text in self.menu.items():
+			if key in self.part_of_menu:
+				print(key + ". " + menu_text)
+
+	def prompt_for_menu(self, menu, part_of_menu):
 		self.menu = menu
+		self.part_of_menu = part_of_menu
 		print('\n')
 		print(" --------------------------------------------------")
 		print("|Veuillez saisir un choix :                        |")
 		print(" --------------------------------------------------")
-		self.print_menu(self.menu)
+		self.print_menu(menu = self.menu, part_of_menu = self.part_of_menu)
 		print(" --------------------------------------------------")
 		return input("Votre choix : ")
 
@@ -63,12 +86,15 @@ class MenuView:
 		print(" --------------------------------------------------")
 		print("                Tournoi : " + self.name + "        ")
 		print(" --------------------------------------------------")
-		self.print_menu(TOURNAMENT_MENU)
+		self.print_menu(menu = TOURNAMENT_MENU)
 		print(" --------------------------------------------------")
 		return input('[Tournoi ' + self.name + '] Votre choix : ')
 
 	def prompt_for_tournament_load(self):
 		return input('Quel tournoi voulez-vous reprendre ? : ')
+
+	def prompt_for_tournament_to_display(self):
+		return input('Quel tournoi voulez-vous afficher ? : ')
 
 	def prompt_select_tournament_player(self, name):
 		self.name = name

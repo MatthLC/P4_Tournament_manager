@@ -12,36 +12,35 @@ class SwissSystem:
 		upper_list = list(upper_half.index)
 
 		for i in range(0, self.half):
-			self.all_matches.append([lower_list[i],upper_list[i]])
+			self.all_matches.append([str(lower_list[i]),str(upper_list[i])])
 
 		return self.all_matches
 
 	def other_round(self, score, ranking, match_played_by_player):
-		self.score = score.copy()
+		self.score = score
+		self.score_copy = {}
 		self.ranking = ranking
 		self.match_played_by_player = match_played_by_player
 		self.all_matches = []
 
 		for key, value in self.ranking.items():
-			self.score[key].append(value)
+			self.score_copy[str(key)] = [self.score[str(key)], value]
 
-		self.sorted_score = sorted(self.score, key = self.score.get)
+		self.sorted_score = sorted(self.score_copy, key = self.score_copy.get, reverse = True)
 		
 		while len(self.sorted_score) > 0:
-			check_opponent = False
 
 			for i in range(1,len(self.sorted_score)):
 				for opponent in self.match_played_by_player[self.sorted_score[0]]:
 					if opponent == self.sorted_score[i]:
-						check_opponent = True
+						break
+						
+				self.all_matches.append([self.sorted_score[0],self.sorted_score[i]])
+				del self.sorted_score[i]
+				del self.sorted_score[0]
+				break
 
-				if check_opponent == False :
-					self.all_matches.append([self.sorted_score[0],self.sorted_score[i]])
-					del self.sorted_score[i]
-					del self.sorted_score[0]
-					break
-
-		return self.all_matches
+		return self.all_matches 
 
 
 
