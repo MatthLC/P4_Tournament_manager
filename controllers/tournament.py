@@ -1,5 +1,6 @@
 from models.database import Database, ACTOR_FORMAT, TOURNAMENT_KEEP
 from models.swisssystem import SwissSystem
+from models.tournament import Tournament
 
 
 class TournamentController:
@@ -16,6 +17,51 @@ class TournamentController:
 		self.view = view
 		self.tournament = tournament
 		self.score_board = score_board
+
+	def create_tournament(self):
+		check_tournament = True
+		while check_tournament == True:
+			tournament_input = self.view.prompt_for_tournament()
+			verify_if_already_exist = self.tournaments_database.search_db(
+				column1 = 'name',
+				value1 = tournament_input.name
+			)
+
+			if len(verify_if_already_exist) == 0:
+				self.tournaments_database.insert_db(tournament_input)
+				self.load_tournament(self.tournaments_database.db_table.get(doc_id=len(self.tournaments_database.db_table)).doc_id)
+				check_tournament = False
+			else:
+				print('\nle tournoi existe déjà !\n')
+
+	def load_tournament(self, tournament_id):
+		self.tournament_id = tournament_id	
+		tournament_to_load = self.tournaments_database.load(tournament_id)
+		
+		self.tournament = Tournament(
+			name = tournament_to_load['name'],
+			localisation = tournament_to_load['localisation'],
+			time_control = tournament_to_load['time_control'],
+			description = tournament_to_load['description'],
+			number_of_rounds = tournament_to_load['number_of_rounds'],
+			current_round = tournament_to_load['current_round'],
+			player_list = tournament_to_load['player_list'],
+			tournament_started = tournament_to_load['tournament_started'],
+			tournament_finished = tournament_to_load['tournament_finished'],
+			round_list = tournament_to_load['round_list'],
+			current_matches = tournament_to_load['current_matches'],
+			matches_done = tournament_to_load['matches_done'],
+			matches_status = tournament_to_load['matches_status'],
+			winner_list = tournament_to_load['winner_list'],
+			winner = tournament_to_load['winner'],
+			match_played_by_player = tournament_to_load['match_played_by_player'],
+			score = tournament_to_load['score']
+		)
+
+	def load_tournament_for_reporting(self):
+		self.show_all_tournament()
+		tournament_to_display = self.view.prompt_for_tournament_to_display()
+		self.load_tournament(tournament_to_display)
 
 	def show_all_tournament(self):
 		tournament_db = self.tournaments_database.show(keep = TOURNAMENT_KEEP)
