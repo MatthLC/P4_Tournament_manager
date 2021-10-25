@@ -79,15 +79,13 @@ class Controller:
 		self.menu_tournament_in_progress_controller.tournament = self.tournament_controller.tournament
 	
 	def run(self):
-		running = True
 		self.view.prompt_clear()
 
-		while running:
+		while True:
 			self.refresh_controller()
-
 			user_choice = self.view.prompt_for_menu(MENU)
 			self.view.prompt_clear()
-			
+
 			#Main MENU
 			#Participants
 			if user_choice == '1':
@@ -103,11 +101,9 @@ class Controller:
 						actor_menu = False
 
 			#Tournois
-			if user_choice == '2':
+			elif user_choice == '2':
 
-				tournament_menu = True
-
-				while tournament_menu:
+				while True:
 					self.refresh_controller()
 					user_choice_tournament_menu = self.view.prompt_for_menu(TOURNAMENT_MENU)
 					self.view.prompt_clear()
@@ -150,13 +146,13 @@ class Controller:
 								tournament_menu = False
 
 					elif user_choice_tournament_menu == '999':
-						tournament_menu = False
+						break
 					
 					else:
 						print('Saisie incorrecte.')
 					
 			#Reporting
-			if user_choice == '3':
+			elif user_choice == '3':
 				
 				reporting_menu = True
 
@@ -170,7 +166,7 @@ class Controller:
 					if user_choice_reporting_menu == '999':
 						reporting_menu = False
 			
-			if user_choice == '999':
-				running = False
+			elif user_choice == '999':
+				break
 			else:
 				print('Saisie incorrecte.')
