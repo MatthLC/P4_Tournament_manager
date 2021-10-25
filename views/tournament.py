@@ -4,6 +4,7 @@ MODIFY_TOURNAMENT = {
 	'1' : '1. Nom du tournoi',
 	'2' : '2. Lieu du tournoi',
 	'3' : '3. Description du tournoi',
+	'4' : '4. Nombre de tours'
 }
 
 

@@ -31,15 +31,18 @@ class View:
 		self.name = name
 		return MenuView().prompt_for_menu_tournament(name = self.name)
 
-	def prompt_for_tournament_load(self):
-		return MenuView().prompt_for_tournament_load()
+	def prompt_for_tournament_load(self, max_number):
+		self.max_number = max_number
+		return MenuView().prompt_to_select(self.max_number)
 
-	def prompt_for_tournament_to_display(self):
-		return MenuView().prompt_for_tournament_to_display()
+	def prompt_for_tournament_to_display(self, max_number):
+		self.max_number = max_number
+		return MenuView().prompt_to_select(self.max_number)
 
-	def	prompt_select_tournament_player(self,name):
-		self.name = name
-		return MenuView().prompt_select_tournament_player(self.name)
+	def	prompt_select_tournament_player(self,max_number):
+		self.max_number = max_number 
+		#return MenuView().prompt_select_tournament_player(self.name)
+		return MenuView().prompt_to_select(self.max_number)
 
 	def prompt_for_actor(self, top_rank):
 		self.top_rank = top_rank
@@ -67,8 +70,21 @@ class View:
 
 		RoundView().show_current_round(self.matches, self.current_round, self.view, self.winner)
 
-	def prompt_to_select_match(self):
-		return input("Sélectionnez un match : ")
+	def prompt_to_select_match(self, number_of_matches):
+		self.number_of_matches = number_of_matches
+		
+		check_value = False
+		while check_value == False:
+			user_choice = input("Sélectionnez un match : ")
+			try:
+				if int(user_choice) in range(1, int(self.number_of_matches) + 1):
+					check_value = True
+				else:
+					print('Saisir un match entre 1 et ' + str(self.number_of_matches))
+			except ValueError:
+				print('Saisie incorrecte.')
+
+		return user_choice
 
 	def promp_to_set_score(self, matches, current_round, view, match_selected):
 		self.matches = matches

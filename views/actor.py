@@ -30,17 +30,10 @@ class ActorView:
 			else:
 				print('Veuillez respecter le format de la date.')
 		
+
 		#Ranking of actor
-		check_ranking = False
-		while check_ranking == False:
-			try:
-				self.ranking = int(input ('Saisir le classement du joueur : '))
-				if self.ranking > top_rank:
-					check_ranking = True
-				else:
-					print('Veuillez saisir unu classement supérieur à ' + str(top_rank))
-			except ValueError:
-				print('Veuillez saisir un nombre.')
+		self.ranking = int(top_rank) + 1
+
 	
 class ModifyRanking:
 	def new_ranking(self, top_rank):

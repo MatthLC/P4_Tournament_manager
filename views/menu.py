@@ -90,16 +90,18 @@ class MenuView:
 		print(" --------------------------------------------------")
 		return input('[Tournoi ' + self.name + '] Votre choix : ')
 
-	def prompt_for_tournament_load(self):
-		return input('Quel tournoi voulez-vous reprendre ? : ')
-
-	def prompt_for_tournament_to_display(self):
-		return input('Quel tournoi voulez-vous afficher ? : ')
-
-	def prompt_select_tournament_player(self, name):
-		self.name = name
-		return input('[Tournoi ' + self.name + '] Sélectionner les joueurs : ')
-
-	
+	def prompt_to_select(self, max_number):
+		self.max_number = max_number
+		check_value = False
+		while check_value == False:
+			user_choice = input('Faites votre choix : ')
+			try:
+				if int(user_choice) in range(1, int(self.max_number) + 1):
+					check_value = True
+				else:
+					print('Saisir un nombre entre 1 et ' + str(self.max_number))
+			except ValueError:
+				print('Saisie incorrecte.')
+		return user_choice
 
 

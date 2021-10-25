@@ -120,7 +120,7 @@ class Controller:
 					
 					elif user_choice_tournament_menu == '3':
 						self.tournament_controller.show_all_tournament()
-						tournament_to_load = self.view.prompt_for_tournament_load()
+						tournament_to_load = self.view.prompt_for_tournament_load(len(self.tournaments_database.table_all))
 						self.tournament_controller.load_tournament(tournament_to_load)
 						
 						tournament_in_progress_menu = True

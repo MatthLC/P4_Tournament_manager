@@ -47,7 +47,7 @@ class MenuTournamentInProgressController:
 	""" add player to tournament from actor list """
 	def add_player_to_tournament(self):
 		self.actor_controller.show_all_actor()
-		self.selected_players = self.view.prompt_select_tournament_player(self.tournament.name).split()
+		self.selected_players = self.view.prompt_select_tournament_player(len(self.actors_database.table_all)).split()
 		self.tournament_controller.add_player_to_tournament(self.selected_players)
 		self.view.prompt_clear()
 		self.tournament_controller.show_tournament_player()
@@ -55,7 +55,7 @@ class MenuTournamentInProgressController:
 	""" delete a player from current tournament """
 	def delete_player_from_tournament(self):
 		self.tournament_controller.show_tournament_player()
-		self.selected_players = self.view.prompt_select_tournament_player(self.tournament.name).split()
+		self.selected_players = self.view.prompt_select_tournament_player(len(self.tournament.player_list)).split()
 		self.tournament_controller.delete_players_from_tournament(self.selected_players)
 		self.view.prompt_clear()
 		self.tournament_controller.show_tournament_player()
@@ -70,12 +70,6 @@ class MenuTournamentInProgressController:
 	""" When all matches requierements are complete, the user can initialize the next round"""
 	def next_round(self):
 		if len(self.tournament.player_list) > 1 :
-			print('current_matches : ' + str(len(self.tournament.current_matches)))
-			print('matches_done : ' + str(len(self.tournament.matches_done)))
-			print('current_round : ' + str(self.tournament.current_round))
-			print('number_of_rounds : ' + str(self.tournament.number_of_rounds))
-			
-
 			if (((len(self.tournament.current_matches) == len(self.tournament.matches_done) and self.tournament.current_round > 0) or 
 				(self.tournament.current_round == 0 )) and 
 				(self.tournament.current_round < self.tournament.number_of_rounds)
@@ -100,7 +94,7 @@ class MenuTournamentInProgressController:
 		self.tournament_controller.show_current_round()
 		match_already_done = True
 		while match_already_done:
-			match_selected = self.view.prompt_to_select_match()
+			match_selected = self.view.prompt_to_select_match(len(self.tournament.matches_status))
 			if self.tournament.matches_status[int(match_selected)-1] == 'En cours':
 				match_already_done = False
 			else:
@@ -134,8 +128,10 @@ class MenuTournamentInProgressController:
 	def update_tournament_information(self):
 		user_choice = self.view.prompt_modify_tournament()
 		if user_choice[0] == '1':
-			pass
+			self.tournament.name = user_choice[1]
 		if user_choice[0] == '2':
-			pass
+			self.tournament.localisation = user_choice[1]
 		if user_choice[0] == '3':
 			self.tournament.description = user_choice[1]
+		if user_choice[0] == '4':
+			self.tournament.number_of_rounds = user_choice[1]

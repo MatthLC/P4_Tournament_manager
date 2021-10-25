@@ -7,10 +7,6 @@ class MatchView:
 
 		print('---------------------------------------------------')
 		print('                And the winner is ?                ')
-		
-		"""Marker
-			'.  (0 : 1)  :    ' +
-		"""
 		print(
 			'1. ' +
 			str(self.view.matable_df.loc[int(self.match[0])].first_name) +
@@ -26,7 +22,19 @@ class MatchView:
 		print('3. Egalité')
 		print('---------------------------------------------------')	
 		print('\n')
+	
+		check_value = False
+		while check_value == False:
+			user_choice = input('Résultat du match : ')
+			try:
+				if int(user_choice) in range(1, 4):
+					check_value = True
+				else:
+					print('Saisir un match entre 1 et 3')
+			except ValueError:
+				print('Saisie incorrecte.')
 
-		return input('Résultat du match : ')
+		return user_choice
+
 		
 

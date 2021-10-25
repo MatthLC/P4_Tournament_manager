@@ -60,7 +60,7 @@ class TournamentController:
 
 	def load_tournament_for_reporting(self):
 		self.show_all_tournament()
-		tournament_to_display = self.view.prompt_for_tournament_to_display()
+		tournament_to_display = self.view.prompt_for_tournament_to_display(number_of_tournament = len(self.tournaments_database.table_all))
 		self.load_tournament(tournament_to_display)
 
 	def show_all_tournament(self):
