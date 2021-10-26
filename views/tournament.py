@@ -7,6 +7,8 @@ MODIFY_TOURNAMENT = {
     '4': '4. Nombre de tours'
 }
 
+TIME_TYPE = ['Bullet', 'Blitz', 'Coup rapide']
+
 
 class TournamentView:
     def __init__(self):
@@ -18,7 +20,7 @@ class TournamentView:
             print('Choisir le controle du temps :')
             print('1. Bullet ')
             print('2. Blitz')
-            print('3. coup rapide')
+            print('3. Coup rapide')
             self.time_control = int(input('Choisir le controle du temps :'))
 
             if self.time_control in range(1, 4):
@@ -43,6 +45,7 @@ class TournamentOverview:
     def overview(self, tournament):
         self.tournament = tournament
         print('Tournoi          : ' + str(self.tournament.name))
+        print('Controle du temps: ' + str(TIME_TYPE[int(self.tournament.time_control) - 1]))
         print('Début du tournoi : ' + str(self.tournament.tournament_started))
         print('Fin du tournoi   : ' + str(self.tournament.tournament_finished))
         print('Lieu             : ' + str(self.tournament.localisation))

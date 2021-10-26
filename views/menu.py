@@ -96,8 +96,17 @@ class MenuView:
         while True:
             user_choice = input('Faites votre choix : ')
             try:
-                if int(user_choice) in range(1, int(self.max_number) + 1):
+                if len(user_choice) == 1:
+                    if int(user_choice) in range(1, int(self.max_number) + 1):
+                        break
+                elif len(user_choice) > 1:
+                    user_choice_list = user_choice.split()
+                    for item in user_choice_list:
+                        if int(item) in range(1, int(self.max_number) + 1):
+                            pass
+
                     break
+
                 else:
                     print('Saisir un nombre entre 1 et ' + str(self.max_number))
             except ValueError:

@@ -2,4 +2,4 @@
 exclude = .gitignore, actors.json, tournament.json, requierements.txt, .git, venv, __pycache__, __init__.py
 max-line-length = 119
 format = html
-htmldir = test
+htmldir = flake-report
