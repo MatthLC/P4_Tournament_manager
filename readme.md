@@ -58,41 +58,44 @@ cd -- "D:\mon_dossier"
 ### 2. Patienter jusqu'à l'affichage du menu d'accueil
 
 - 1 participants :
-    `1. Afficher la liste des participants`
-    `2. Ajouter un participant`
-    `3. Mettre à jour le classement`
-
+```
+    1. Afficher la liste des participants
+    2. Ajouter un participant
+    3. Mettre à jour le classement
+```
 - 2 Tournois :
-    `1. Afficher la liste des tournois`
-    `2. Créer un tournoi`
-    `3. Continuer un tournoi`
-
+```
+    1. Afficher la liste des tournois
+    2. Créer un tournoi
+    3. Continuer un tournoi
+```
 Lorsqu'un tournoi vient d'être créé, il est nécessaire de sélectionner "Continuer un tournoi" afin de charger ce dernier.
 
 - 2.2 Gestion du tournoi :
-    `1. Résumé du tournoi`
-    `2. Afficher la liste des joueurs`
-    `3. Ajouter un joeur`
-    `4. Supprimer un joueur`
-    `5. Afficher le round en cours`
-    `6. Round suivant`
-    `7. Saisir le résultat d'un match`
-    `8. Classement du tournoi`
-    `9. Cloturer le tournoi`
-    `10. Modifier le tournoi`
-
+```
+    1. Résumé du tournoi
+    2. Afficher la liste des joueurs
+    3. Ajouter un joeur
+    4. Supprimer un joueur
+    5. Afficher le round en cours
+    6. Round suivant
+    7. Saisir le résultat d'un match
+    8. Classement du tournoi
+    9. Cloturer le tournoi
+    10. Modifier le tournoi
+```
 Dans le cas où votre tournoi ne posséderait pas encore de joueurs, seules les sélections 1, 2, 3, 4 et 10 seront visibles.(Don't panic!)
 
-
 - 3 Reporting :
-    `1. Liste des participants par ordre alphabétique `
-    `2. Liste des participants par classement `
-    `3. Liste de tous les tournois`
-    `4. Liste des joueurs d'un tournoi par ordre alphabétique`
-    `5. Liste des joueurs d'un tournoi par classement`
-    `6. Liste de tous les tours / matchs d'un tournoi`
-    `7. Afficher le classement d'un tournoi`
-
+```
+    1. Liste des participants par ordre alphabétique 
+    2. Liste des participants par classement 
+    3. Liste de tous les tournois
+    4. Liste des joueurs d'un tournoi par ordre alphabétique
+    5. Liste des joueurs d'un tournoi par classement
+    6. Liste de tous les tours / matchs d'un tournoi
+    7. Afficher le classement d'un tournoi
+```
 
 Pour revenir au menu précédant ou quitter l'application:
 `999`
@@ -108,11 +111,12 @@ les données sont stockées au format JSON à la racine du projet:
 ## **Flake8-HTML Report :**
 
 Flake8 est paramétré suivant les critères suivants :
-
-`exclude = .gitignore, actors.json, tournament.json, requierements.txt, .git, venv, __pycache__, __init__.py`
-`max-line-length = 119`
-`format = html`
-`htmldir = flake-report`
+```
+exclude = .gitignore, actors.json, tournament.json, requierements.txt, .git, venv, __pycache__, __init__.py
+max-line-length = 119
+format = html
+htmldir = flake-report
+```
 
 Ces critères sont disponibles dans le fichier ".flake8" à la racine du projet.
 
