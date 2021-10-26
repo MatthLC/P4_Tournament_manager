@@ -1,6 +1,6 @@
 # **Tournament Manager v1.0.0**
 
-Organisez votre tournoi d'échec avec Tournament Manager ! (Gestion des paires suivant le système suisse)
+Organisez votre tournoi d'échecs avec Tournament Manager ! (Gestion des paires suivant le système suisse)
 
 Cette application vous offre la possibilité de:
 - Gérer une liste de participants ainsi que leurs classements
