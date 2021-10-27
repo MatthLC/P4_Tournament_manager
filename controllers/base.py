@@ -114,34 +114,37 @@ class Controller:
                         self.tournament_controller.create_tournament()
 
                     elif user_choice_tournament_menu == '3':
-                        self.tournament_controller.show_all_tournament()
-                        tournament_to_load = self.view.prompt_for_tournament_load(
-                            len(self.tournaments_database.table_all)
-                        )
-                        self.tournament_controller.load_tournament(tournament_to_load)
-
-                        while True:
-                            self.refresh_controller()
-
-                            self.tournament_controller.save_tournament()
-                            if len(self.tournament_controller.tournament.player_list) < 2:
-                                user_choice_tournament_in_progress_menu = self.view.prompt_for_menu(
-                                    menu=TOURNAMENT_IN_PROGRESS_MENU,
-                                    part_of_menu=['1', '2', '3', '4', '10', '999']
-                                )
-                            else:
-                                user_choice_tournament_in_progress_menu = self.view.prompt_for_menu(
-                                    TOURNAMENT_IN_PROGRESS_MENU
-                                )
-
-                            self.view.prompt_clear()
-                            self.menu_tournament_in_progress_controller.execute_menu(
-                                EXECUTE_TOURNAMENT_IN_PROGRESS_MENU,
-                                user_choice_tournament_in_progress_menu
+                        if len(self.tournaments_database.table_all) == 0:
+                            print("Il n'y pas de tournoi pour le moment.")
+                        if len(self.tournaments_database.table_all) > 0:
+                            self.tournament_controller.show_all_tournament()
+                            tournament_to_load = self.view.prompt_for_tournament_load(
+                                len(self.tournaments_database.table_all)
                             )
+                            self.tournament_controller.load_tournament(tournament_to_load)
 
-                            if user_choice_tournament_in_progress_menu == '999':
-                                break
+                            while True:
+                                self.refresh_controller()
+
+                                self.tournament_controller.save_tournament()
+                                if len(self.tournament_controller.tournament.player_list) < 2:
+                                    user_choice_tournament_in_progress_menu = self.view.prompt_for_menu(
+                                        menu=TOURNAMENT_IN_PROGRESS_MENU,
+                                        part_of_menu=['1', '2', '3', '4', '10', '999']
+                                    )
+                                else:
+                                    user_choice_tournament_in_progress_menu = self.view.prompt_for_menu(
+                                        TOURNAMENT_IN_PROGRESS_MENU
+                                    )
+
+                                self.view.prompt_clear()
+                                self.menu_tournament_in_progress_controller.execute_menu(
+                                    EXECUTE_TOURNAMENT_IN_PROGRESS_MENU,
+                                    user_choice_tournament_in_progress_menu
+                                )
+
+                                if user_choice_tournament_in_progress_menu == '999':
+                                    break
 
                     elif user_choice_tournament_menu == '999':
                         break
@@ -151,10 +154,7 @@ class Controller:
 
             # Reporting
             elif user_choice == '3':
-
-                reporting_menu = True
-
-                while reporting_menu:
+                while True:
                     self.refresh_controller()
                     user_choice_reporting_menu = self.view.prompt_for_menu(REPORTING_MENU)
                     self.view.prompt_clear()
@@ -162,7 +162,7 @@ class Controller:
                     self.menu_reporting_controller.execute_menu(EXECUTE_REPORTING_MENU, user_choice_reporting_menu)
 
                     if user_choice_reporting_menu == '999':
-                        reporting_menu = False
+                        break
 
             elif user_choice == '999':
                 break

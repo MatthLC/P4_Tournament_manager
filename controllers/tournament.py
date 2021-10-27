@@ -67,8 +67,11 @@ class TournamentController:
         self.load_tournament(tournament_to_display)
 
     def show_all_tournament(self):
-        tournament_db = self.tournaments_database.show(keep=TOURNAMENT_KEEP)
-        self.view.display(tournament_db)
+        if len(self.tournaments_database.table_all) == 0:
+            print("Il n'y pas de tournoi pour le moment.")
+        if len(self.tournaments_database.table_all) > 0:
+            tournament_db = self.tournaments_database.show(keep=TOURNAMENT_KEEP)
+            self.view.display(tournament_db)
 
     def show_tournament_player(self, sort_list=[]):
         self.sort_list = sort_list
