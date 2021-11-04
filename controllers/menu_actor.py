@@ -37,7 +37,7 @@ class MenuController:
 
     """Display all actors registered"""
     def display_actors(self):
-        self.actor_controller.show_all_actor()
+        self.actor_controller.show_all_actors()
 
     """Add actor to the tournament manager"""
     def add_actor(self):
@@ -46,7 +46,7 @@ class MenuController:
 
     """Update actor's Rank"""
     def set_new_rank(self):
-        self.actor_controller.show_all_actor()
+        self.actor_controller.show_all_actors()
         user_choice = self.view.prompt_new_ranking(top_rank=len(self.actors_database.table_all))
         self.actor_controller.modify_actor(user_choice)
 

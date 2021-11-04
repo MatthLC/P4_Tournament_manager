@@ -9,12 +9,12 @@ from controllers.menu_tournament_in_progress import EXECUTE_TOURNAMENT_IN_PROGRE
 from views.menu import MENU, ACTOR_MENU, TOURNAMENT_MENU, TOURNAMENT_IN_PROGRESS_MENU, REPORTING_MENU
 
 
-class Controller:
+class TournamentManager:
     def __init__(self, actors_database, tournaments_database, view):
         self.view = view
         self.actors_database = actors_database
         self.tournaments_database = tournaments_database
-        self.tournament = ''
+        self.tournament = None
         self.actor_list = []
         self.score_board = {
             '1': [1.0, 0.0],
@@ -115,7 +115,7 @@ class Controller:
 
                     elif user_choice_tournament_menu == '3':
                         if len(self.tournaments_database.table_all) == 0:
-                            print("Il n'y pas de tournoi pour le moment.")
+                            self.view.display("Il n'y pas de tournoi pour le moment.")
                         if len(self.tournaments_database.table_all) > 0:
                             self.tournament_controller.show_all_tournament()
                             tournament_to_load = self.view.prompt_for_tournament_load(

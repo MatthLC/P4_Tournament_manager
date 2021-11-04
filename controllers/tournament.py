@@ -156,8 +156,9 @@ class TournamentController:
         self.match = self.tournament.current_matches[self.selected_match]
 
         if result != '3':
-            last_name = self.actors_database.matable_df.loc[int(self.match[int(self.result) - 1])].first_name
-            first_name = self.actors_database.matable_df.loc[int(self.match[int(self.result) - 1])].last_name
+            get_player_information = self.actors_database.matable_df.loc[int(self.match[int(self.result) - 1])]
+            last_name = get_player_information.first_name
+            first_name = get_player_information.last_name
             self.display_winner = first_name + ' ' + last_name
 
         if result == '3':

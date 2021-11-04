@@ -39,9 +39,6 @@ class MenuReportingController:
         except TypeError:
             print('Saisie incorrecte.')
 
-    def back_to_main_menu(self):
-        pass
-
     def refresh_controller(self):
         self.tournament = self.tournament_controller.tournament
         self.reporting_controller.tournament = self.tournament_controller.tournament

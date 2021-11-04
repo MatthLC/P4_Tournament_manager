@@ -9,7 +9,7 @@ class ActorController:
         self.tournaments_database = tournaments_database
         self.view = view
 
-    def show_all_actor(self):
+    def show_all_actors(self):
         self.view.display(self.actors_database.show())
 
     def add_actor(self):
@@ -50,4 +50,4 @@ class ActorController:
 
         self.actors_database.modify_db(dictionnary=new_rank, id_list=user_choice[0])
         self.view.prompt_clear()
-        self.show_all_actor()
+        self.show_all_actors()

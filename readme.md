@@ -32,7 +32,7 @@ cd -- "D:\mon_dossier"
 - Créer l'environnement:
 
 
-`python -m venv venv`
+`python -m venv tournament`
 
 - Activer l'nvironnement (L'environnement est activé une fois son nom affiché dans le terminal) : 
 

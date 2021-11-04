@@ -56,7 +56,7 @@ class MenuTournamentInProgressController:
 
     """ add player to tournament from actor list """
     def add_player_to_tournament(self):
-        self.actor_controller.show_all_actor()
+        self.actor_controller.show_all_actors()
         self.selected_players = self.view.prompt_select_tournament_player(len(self.actors_database.table_all)).split()
         self.tournament_controller.add_player_to_tournament(self.selected_players)
         self.view.prompt_clear()
