@@ -1,6 +1,6 @@
 from models.database import Database, ACTOR_FORMAT, TOURNAMENT_FORMAT
 
-from controllers.base import Controller
+from controllers.base import TournamentManager
 
 from views.base import View
 
@@ -11,7 +11,7 @@ def main():
 
     view = View()
 
-    control = Controller(
+    control = TournamentManager(
         actors_database=actor_db,
         tournaments_database=tournament_db,
         view=view
