@@ -2,6 +2,9 @@ from models.database import TOURNAMENT_KEEP
 from models.swisssystem import SwissSystem
 from models.tournament import Tournament
 
+import pandas as pd
+import numpy as np
+
 
 class TournamentController:
     def __init__(
@@ -17,6 +20,7 @@ class TournamentController:
         self.view = view
         self.tournament = tournament
         self.score_board = score_board
+        self.swisssystem = SwissSystem()
 
     def create_tournament(self):
         while True:
@@ -120,7 +124,7 @@ class TournamentController:
 
     def round_system(self):
         if self.tournament.current_round == 1:
-            self.tournament.current_matches = SwissSystem().first_round(
+            self.tournament.current_matches = self.swisssystem.first_round(
                 self.actors_database.sort_by(
                     item_list=self.tournament.player_list,
                     sort_list=['ranking']
@@ -134,7 +138,7 @@ class TournamentController:
             show = self.actors_database.show(keep=['ranking'], id_list=self.tournament.player_list)
             show = list(show.to_dict().values())[0]
 
-            self.tournament.current_matches = SwissSystem().other_round(
+            self.tournament.current_matches = self.swisssystem.other_round(
                 score=self.tournament.score,
                 ranking=show,
                 match_played_by_player=self.tournament.match_played_by_player
@@ -154,9 +158,12 @@ class TournamentController:
         self.result_player2 = self.score_board[self.result][1]
         self.display_winner = ''
         self.match = self.tournament.current_matches[self.selected_match]
+        self.table_all = self.actors_database.db_table.all()
+        self.matable_df = pd.DataFrame.from_dict(self.table_all)
+        self.matable_df.index = np.arange(1, len(self.matable_df) + 1)
 
         if result != '3':
-            get_player_information = self.actors_database.matable_df.loc[int(self.match[int(self.result) - 1])]
+            get_player_information = self.matable_df.loc[int(self.match[int(self.result) - 1])]
             last_name = get_player_information.first_name
             first_name = get_player_information.last_name
             self.display_winner = first_name + ' ' + last_name
