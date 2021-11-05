@@ -18,7 +18,7 @@ Ce projet est développé avec la version de Python 3.9, il est par conséquent 
 
 ### 1. Cloner la branche Main vers un répertoire local
 
-- Créer un dossier sur votre ordianteur pour y disposer les fichiers présents sous GitHub
+- Créer un dossier sur votre ordinateur pour y disposer les fichiers présents sous GitHub
 
 - Ouvrir un terminal (Ex: Windows PowerShell) et se positionner dans le dossier en question avec la commande cd, par exemple:
 
