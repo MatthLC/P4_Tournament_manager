@@ -1,7 +1,11 @@
 venv
+tournament
 controllers/__pycache__
+controllers/flake-report
 models/__pycache__
+models/flake-report
 views/__pycache__
+views/flake-report
 flake-report
 actors.json
 tournaments.json

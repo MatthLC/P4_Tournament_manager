@@ -11,7 +11,7 @@ Toutes les données seront enregistrées au format .JSON afin de sauvegarder vot
  
 ## **Prérequis**
 
-Ce projet est développé avec la version de Python 3.9.7, il est par conséquent recommandé d'installer cette version avant de continuer.
+Ce projet est développé avec la version de Python 3.9, il est par conséquent recommandé d'installer cette version avant de continuer.
 
 
 ## **Initialisation de l'environnement**
@@ -38,11 +38,11 @@ cd -- "D:\mon_dossier"
 
     - Windows:
 
-    `venv/Scripts/Activate.ps1` 
+    `tournament/Scripts/Activate.ps1` 
 
     - Inux et MacOS:  
 
-    `source venv/bin/activate`
+    `source tournament/bin/activate`
 
 - Installer les librairies : 
 
@@ -112,7 +112,7 @@ les données sont stockées au format JSON à la racine du projet:
 
 Flake8 est paramétré suivant les critères suivants :
 ```
-exclude = .gitignore, actors.json, tournament.json, requierements.txt, .git, venv, __pycache__, __init__.py
+exclude = .gitignore, actors.json, tournament.json, requierements.txt, .git, venv, tournament, __pycache__, __init__.py
 max-line-length = 119
 format = html
 htmldir = flake-report
